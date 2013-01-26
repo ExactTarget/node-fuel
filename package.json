@@ -1,0 +1,40 @@
+{
+  "name": "fuel",
+  "description": "Client for ExactTarget's Fuel REST APIs",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ExactTarget/node-fuel",
+  "author": {
+    "name": "ExactTarget",
+    "email": "aalexander@exacttarget.com",
+    "url": "http://code.exacttarget.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ExactTarget/node-fuel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ExactTarget/node-fuel/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ExactTarget/node-fuel/blob/master/COPYING"
+    }
+  ],
+  "main": "lib/fuel",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.17"
+  },
+  "keywords": [
+    "exacttarget fuel"
+  ],
+  "dependencies": {
+    "request": "~2.12.0"
+  }
+}
