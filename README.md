@@ -38,6 +38,15 @@ fuel({
 	console.log(body);
 });
 ```
+#### Syntax
+
+The general format is as follows:
+
+`fuel(options, callback);`
+
+The `options` and `callback` parameters are compatible with the `request` module.  For details, see the documentation:
+
+https://github.com/mikeal/request#requestoptions-callback
 
 ### Just manage a Fuel OAuth token
 
@@ -71,6 +80,16 @@ token(function (error, response, tokenData) {
 // scenes, renewing it when necessary, maintaining state
 // using the refresh token if present
 ```
+
+#### Syntax
+
+The general format is as follows:
+
+`token(callback);`
+
+The `callback` parameter is compatible with the `request` module.  For details, see the documentation:
+
+https://github.com/mikeal/request#requestoptions-callback
 
 ## Release History
 
