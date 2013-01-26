@@ -69,7 +69,7 @@ var token = require('fuel').token.configure({
 	accessType: 'offline'
 });
 
-// Get a token (this example displays the token data
+// Get a token (this example displays the token data)
 
 token(function (error, response, tokenData) {
 	console.log(tokenData);
