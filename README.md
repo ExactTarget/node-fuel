@@ -124,6 +124,11 @@ We are grateful to the following maintainers, contributors, and sponsors of the 
 + http://twitter.com/adamalex
 + http://github.com/adamalex
 
+**Benjamin Dean**
+
++ https://twitter.com/bdeanet
++ https://github.com/creatovisguru
+
 ## Copyright and license
 
 Copyright (c) 2013 ExactTarget
