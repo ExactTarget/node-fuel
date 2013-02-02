@@ -40,6 +40,92 @@ exports['module basics'] = {
 	}
 };
 
+exports['module validation'] = {
+	setUp: function (done) {
+		stubCallback.callbackCount = 0;
+		stubCallback.error = null;
+		done();
+	},
+
+	tearDown: function (done) {
+		stubCallback.callbackCount = 0;
+		stubCallback.error = null;
+		done();
+	},
+
+	'validates null options': function (test) {
+		var valid = fuel._validateOptions(null, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'options object is required', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates empty options': function (test) {
+		var valid = fuel._validateOptions({}, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'authUrl is required', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates missing clientId': function (test) {
+		var valid = fuel._validateOptions({ authUrl: 'a' }, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'clientId is missing or invalid', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates invalid clientId': function (test) {
+		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'i' }, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'clientId is missing or invalid', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates missing clientSecret': function (test) {
+		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'iiiiiiiiiiiiiiiiiiiiiiii' }, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'clientSecret is missing or invalid', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates invalid clientSecret': function (test) {
+		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'iiiiiiiiiiiiiiiiiiiiiiii', clientSecret: 's' }, stubCallback);
+
+		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
+		test.strictEqual(stubCallback.error.message, 'clientSecret is missing or invalid', 'should return expected message');
+		test.strictEqual(stubCallback.callbackCount, 1, 'should call the callback once');
+		test.strictEqual(valid, false, 'should indicate validation failure');
+		test.done();
+	},
+
+	'validates valid options': function (test) {
+		var valid = fuel._validateOptions({
+			authUrl: 'a',
+			clientId: 'iiiiiiiiiiiiiiiiiiiiiiii',
+			clientSecret: 'ssssssssssssssssssssssss'
+		}, stubCallback);
+
+		test.strictEqual(stubCallback.callbackCount, 0, 'should not call the callback');
+		test.strictEqual(valid, true, 'should indicate validation success');
+		test.done();
+	}
+};
+
 exports['fuel requests and config'] = {
 	setUp: function (done) {
 		this._performRequest = fuel._performRequest;
@@ -58,7 +144,17 @@ exports['fuel requests and config'] = {
 	'handles a basic request': function (test) {
 		test.expect(2);
 
-		fuel({ url: 'apiurl', method: 'PATCH', authUrl: 'auth', clientId: 'yyy', clientSecret: 'zzz', body: 'zzzzz', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' }, function (error, response, body) {
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'auth',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error, response, body) {
 			test.ifError(error);
 
 			test.deepEqual(body, {
@@ -78,8 +174,23 @@ exports['fuel requests and config'] = {
 	'manages separate configurations': function (test) {
 		test.expect(4);
 
-		var fuela = fuel.configure({ authUrl: 'auth', clientId: 'yyy', clientSecret: 'zzz', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' });
-		var fuelx = fuel.configure({ authUrl: 'auth2', clientId: 'yyy', clientSecret: 'zzz', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' });
+		var fuela = fuel.configure({
+			authUrl: 'auth',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		});
+
+		var fuelx = fuel.configure({
+			authUrl: 'auth2',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		});
 
 		fuela({ url: 'apiurla', method: 'PATCH', body: 'zzzzz' }, function (error, response, body) {
 			test.ifError(error);
@@ -131,7 +242,14 @@ exports['fuel token and config'] = {
 	'handles a token request': function (test) {
 		test.expect(2);
 
-		fuel.token({ authUrl: 'auth3', clientId: 'yyy', clientSecret: 'zzz', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' }, function (error, response, body) {
+		fuel.token({
+			authUrl: 'auth3',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error, response, body) {
 			test.ifError(error);
 
 			test.deepEqual(body, {
@@ -139,8 +257,8 @@ exports['fuel token and config'] = {
 				method: 'POST',
 				json: true,
 				body: {
-					clientId: 'yyy',
-					clientSecret: 'zzz',
+					clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+					clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
 					accessType: 'aaaa',
 					refreshToken: 'rrrr',
 					scope: 'ssss'
@@ -154,8 +272,23 @@ exports['fuel token and config'] = {
 	'manages separate configurations': function (test) {
 		test.expect(4);
 
-		var tokena = fuel.token.configure({ authUrl: 'auth3', clientId: 'aaa', clientSecret: 'bbb', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' });
-		var tokenx = fuel.token.configure({ authUrl: 'auth4', clientId: 'xxx', clientSecret: 'yyy', accessType: 'aaaa', refreshToken: 'rrrr', scope: 'ssss' });
+		var tokena = fuel.token.configure({
+			authUrl: 'auth3',
+			clientId: 'aaaaaaaaaaaaaaaaaaaaaaaa',
+			clientSecret: 'bbbbbbbbbbbbbbbbbbbbbbbb',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		});
+
+		var tokenx = fuel.token.configure({
+			authUrl: 'auth4',
+			clientId: 'xxxxxxxxxxxxxxxxxxxxxxxx',
+			clientSecret: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		});
 
 		tokena(function (error, response, body) {
 			test.ifError(error);
@@ -165,8 +298,8 @@ exports['fuel token and config'] = {
 				method: 'POST',
 				json: true,
 				body: {
-					clientId: 'aaa',
-					clientSecret: 'bbb',
+					clientId: 'aaaaaaaaaaaaaaaaaaaaaaaa',
+					clientSecret: 'bbbbbbbbbbbbbbbbbbbbbbbb',
 					accessType: 'aaaa',
 					refreshToken: 'rrrr',
 					scope: 'ssss'
@@ -182,8 +315,8 @@ exports['fuel token and config'] = {
 				method: 'POST',
 				json: true,
 				body: {
-					clientId: 'xxx',
-					clientSecret: 'yyy',
+					clientId: 'xxxxxxxxxxxxxxxxxxxxxxxx',
+					clientSecret: 'yyyyyyyyyyyyyyyyyyyyyyyy',
 					accessType: 'aaaa',
 					refreshToken: 'rrrr',
 					scope: 'ssss'
@@ -197,6 +330,11 @@ exports['fuel token and config'] = {
 
 
 // Stub logic
+
+function stubCallback(error) {
+	stubCallback.callbackCount++;
+	stubCallback.error = error;
+}
 
 function stubRequest(options, callback) {
 	options = fuel._removeAuthOptions(options);
