@@ -97,6 +97,12 @@ https://github.com/mikeal/request#requestoptions-callback
 
 _This module is semantically versioned: <http://semver.org>_
 
+### Version 0.2.0 `2013-02-02`
+
+* Improve validation of options
+* Support arrays within request body
+* Cache OAuth errors for 10 seconds
+
 ### Version 0.1.0 `2013-01-26`
 
 * Initial release
