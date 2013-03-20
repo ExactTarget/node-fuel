@@ -221,6 +221,49 @@ exports['fuel requests and config'] = {
 
 			test.done();
 		});
+	},
+
+	'manages multiple requests without colliding': function (test) {
+		test.expect(4);
+
+		var fuela = fuel.configure({
+			authUrl: 'auth',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		});
+
+		fuela({ url: 'apiurla', method: 'PATCH', body: { one: true } }, function (error, response, body) {
+			test.ifError(error);
+
+			test.deepEqual(body, {
+				url: 'apiurla',
+				method: 'PATCH',
+				json: true,
+				headers: {
+					authorization: 'Bearer stubtoken'
+				},
+				body: { one: true }
+			}, 'should construct the appropriate fuela request');
+		});
+
+		fuela({ url: 'apiurla', method: 'PATCH', body: { two: true } }, function (error, response, body) {
+			test.ifError(error);
+
+			test.deepEqual(body, {
+				url: 'apiurla',
+				method: 'PATCH',
+				json: true,
+				headers: {
+					authorization: 'Bearer stubtoken'
+				},
+				body: { two: true }
+			}, 'should construct the appropriate fuela request');
+		});
+
+		test.done();
 	}
 };
 
