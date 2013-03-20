@@ -97,6 +97,10 @@ https://github.com/mikeal/request#requestoptions-callback
 
 _This module is semantically versioned: <http://semver.org>_
 
+### Version 0.2.1 `2013-03-20`
+
+* Copy stored options to avoid collision
+
 ### Version 0.2.0 `2013-02-02`
 
 * Improve validation of options
