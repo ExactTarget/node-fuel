@@ -97,6 +97,10 @@ https://github.com/mikeal/request#requestoptions-callback
 
 _This module is semantically versioned: <http://semver.org>_
 
+### Version 0.2.2 `2013-06-11`
+
+* Prevent token expiration timer from artificially keeping consuming app running
+
 ### Version 0.2.1 `2013-03-20`
 
 * Copy stored options to avoid collision
