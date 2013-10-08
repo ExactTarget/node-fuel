@@ -29,5 +29,21 @@
   },
   "bugs": {
     "url": "https://github.com/ExactTarget/node-fuel/issues"
+  },
+  "jshintConfig": {
+    "bitwise": true,
+    "camelcase": true,
+    "eqeqeq": true,
+    "forin": true,
+    "immed": true,
+    "newcap": true,
+    "noarg": true,
+    "node": true,
+    "nonew": true,
+    "plusplus": true,
+    "smarttabs": true,
+    "trailing": true,
+    "undef": true,
+    "unused": true
   }
 }

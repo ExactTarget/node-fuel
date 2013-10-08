@@ -375,7 +375,7 @@ exports['fuel token and config'] = {
 // Stub logic
 
 function stubCallback(error) {
-	stubCallback.callbackCount++;
+	stubCallback.callbackCount += 1;
 	stubCallback.error = error;
 }
 
