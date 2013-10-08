@@ -2,7 +2,7 @@
 
 Client for ExactTarget's Fuel REST APIs
 
-[![Build Status](https://secure.travis-ci.org/ExactTarget/node-fuel.png?branch=master)](http://travis-ci.org/ExactTarget/node-fuel)
+[![Build Status](https://travis-ci.org/ExactTarget/node-fuel.png?branch=master)](https://travis-ci.org/ExactTarget/node-fuel)
 
 ## Getting Started
 Install the module with: `npm install fuel`
