@@ -97,6 +97,10 @@ https://github.com/mikeal/request#requestoptions-callback
 
 _This module is semantically versioned: <http://semver.org>_
 
+### Version 0.2.3 `2013-10-08`
+
+* Fix compatibility with Node.js below v0.10
+
 ### Version 0.2.2 `2013-06-11`
 
 * Prevent token expiration timer from artificially keeping consuming app running
@@ -144,6 +148,11 @@ We are grateful to the following maintainers, contributors, and sponsors of the 
 
 + https://twitter.com/bdeanet
 + https://github.com/creatovisguru
+
+**Douglas Wilson**
+
++ https://twitter.com/blipsofadoug
++ https://github.com/dougwilson
 
 ## Copyright and license
 
