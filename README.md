@@ -2,7 +2,7 @@
 
 Client for ExactTarget's Fuel REST APIs
 
-[![Build Status](https://secure.travis-ci.org/ExactTarget/node-fuel.png?branch=master)](http://travis-ci.org/ExactTarget/node-fuel)
+[![Build Status](https://travis-ci.org/ExactTarget/node-fuel.png?branch=master)](https://travis-ci.org/ExactTarget/node-fuel)
 
 ## Getting Started
 Install the module with: `npm install fuel`
@@ -92,32 +92,6 @@ The general format is as follows:
 The `callback` parameter is compatible with the `request` module.  For details, see the documentation:
 
 https://github.com/mikeal/request#requestoptions-callback
-
-## Release History
-
-_This module is semantically versioned: <http://semver.org>_
-
-### Version 0.2.3 `2013-10-08`
-
-* Fix compatibility with Node.js below v0.10
-
-### Version 0.2.2 `2013-06-11`
-
-* Prevent token expiration timer from artificially keeping consuming app running
-
-### Version 0.2.1 `2013-03-20`
-
-* Copy stored options to avoid collision
-
-### Version 0.2.0 `2013-02-02`
-
-* Improve validation of options
-* Support arrays within request body
-* Cache OAuth errors for 10 seconds
-
-### Version 0.1.0 `2013-01-26`
-
-* Initial release
 
 ## Contributing
 Before writing code, we suggest you [search for issues](https://github.com/ExactTarget/node-mashery/issues?state=open)

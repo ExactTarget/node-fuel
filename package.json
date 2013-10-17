@@ -1,21 +1,25 @@
 {
   "name": "fuel",
   "description": "Client for ExactTarget's Fuel REST APIs",
-  "version": "0.2.3",
   "homepage": "https://github.com/ExactTarget/node-fuel",
+  "version": "0.3.0",
   "license": "MIT",
   "keywords": [
     "exacttarget fuel"
   ],
   "main": "lib/fuel",
   "dependencies": {
+    "extend": "1.2.1",
     "request": "~2.12.0"
   },
   "devDependencies": {
-    "grunt": "~0.3.17"
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.3"
   },
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "grunt test"
@@ -26,5 +30,21 @@
   },
   "bugs": {
     "url": "https://github.com/ExactTarget/node-fuel/issues"
+  },
+  "jshintConfig": {
+    "bitwise": true,
+    "camelcase": true,
+    "eqeqeq": true,
+    "forin": true,
+    "immed": true,
+    "newcap": true,
+    "noarg": true,
+    "node": true,
+    "nonew": true,
+    "plusplus": true,
+    "smarttabs": true,
+    "trailing": true,
+    "undef": true,
+    "unused": true
   }
 }
