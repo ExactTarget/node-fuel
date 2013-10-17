@@ -1,6 +1,16 @@
 fuel History
 ============
 
+v0.3.0 2013-10-17
+-----------------
+
+This release removes the token expiration timer. The main benefit is that
+the expiration will occur even if the event loop is being starved or the
+clock drifts.
+
+  * Replace timer in token response memorization with on-demand checks.
+  * Use monotonic clock for memorization expiration rather than wall clock.
+
 v0.2.3 2013-10-08
 -----------------
 

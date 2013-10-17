@@ -1,8 +1,8 @@
 {
   "name": "fuel",
   "description": "Client for ExactTarget's Fuel REST APIs",
-  "version": "0.2.3",
   "homepage": "https://github.com/ExactTarget/node-fuel",
+  "version": "0.3.0",
   "license": "MIT",
   "keywords": [
     "exacttarget fuel"
