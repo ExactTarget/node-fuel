@@ -93,32 +93,6 @@ The `callback` parameter is compatible with the `request` module.  For details, 
 
 https://github.com/mikeal/request#requestoptions-callback
 
-## Release History
-
-_This module is semantically versioned: <http://semver.org>_
-
-### Version 0.2.3 `2013-10-08`
-
-* Fix compatibility with Node.js below v0.10
-
-### Version 0.2.2 `2013-06-11`
-
-* Prevent token expiration timer from artificially keeping consuming app running
-
-### Version 0.2.1 `2013-03-20`
-
-* Copy stored options to avoid collision
-
-### Version 0.2.0 `2013-02-02`
-
-* Improve validation of options
-* Support arrays within request body
-* Cache OAuth errors for 10 seconds
-
-### Version 0.1.0 `2013-01-26`
-
-* Initial release
-
 ## Contributing
 Before writing code, we suggest you [search for issues](https://github.com/ExactTarget/node-mashery/issues?state=open)
 or [create a new one](https://github.com/ExactTarget/node-mashery/issues/new) to confirm where your contribution fits into
