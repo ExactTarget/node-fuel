@@ -1,6 +1,15 @@
 fuel History
 ============
 
+v0.3.1 2013-10-17
+-----------------
+
+This release fixes a regression in v0.3.0 where tokens would never expire
+and so after token expiration time was reached, all requests would result
+in `401 Unauthorized`.
+
+  *  Fix omission preventing memorized tokens from expiring.
+
 v0.3.0 2013-10-17
 -----------------
 
