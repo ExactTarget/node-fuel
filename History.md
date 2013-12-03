@@ -1,6 +1,17 @@
 fuel History
 ============
 
+v0.4.0 2013-12-03
+-----------------
+
+This release adds better token handling when using automatic token
+management.
+
+  * `request` module updated to v2.27.0 from v0.12.0.
+  * Return error when fetching token automatically for request fails.
+  * Attempt to fetch new token after a request fails with invalid token
+    response.
+
 v0.3.1 2013-10-17
 -----------------
 

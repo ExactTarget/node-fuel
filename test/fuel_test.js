@@ -129,7 +129,7 @@ exports['module validation'] = {
 exports['fuel requests and config'] = {
 	setUp: function (done) {
 		this._performRequest = fuel._performRequest;
-		fuel._performRequest = stubRequest;
+		fuel._performRequest = stubEchoRequest;
 		this._performTokenRequest = fuel._performTokenRequest;
 		fuel._performTokenRequest = stubTokenRequest;
 		done();
@@ -148,6 +148,36 @@ exports['fuel requests and config'] = {
 			url: 'apiurl',
 			method: 'PATCH',
 			authUrl: 'auth',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error, response, body) {
+			test.ifError(error);
+
+			test.deepEqual(body, {
+				url: 'apiurl',
+				method: 'PATCH',
+				json: true,
+				headers: {
+					authorization: 'Bearer stubtoken'
+				},
+				body: 'zzzzz'
+			}, 'should construct the appropriate request');
+
+			test.done();
+		});
+	},
+
+	'handles invalid token response': function (test) {
+		test.expect(2);
+
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'authbad',
 			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
 			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
 			body: 'zzzzz',
@@ -264,15 +294,75 @@ exports['fuel requests and config'] = {
 		});
 
 		test.done();
+	},
+
+	'handles token request 500 error': function (test) {
+		test.expect(2);
+
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'auth500',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error) {
+			test.ok(error, 'should get error');
+			test.equal(error.message, 'Error requesting token: Internal Server Error', 'should be expected error');
+			test.done();
+		});
+	},
+
+	'handles token request non-200': function (test) {
+		test.expect(2);
+
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'auth503',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error) {
+			test.ok(error, 'should get error');
+			test.equal(error.message, 'Error requesting token: 503 Service Unavailable', 'should be expected error');
+			test.done();
+		});
+	},
+
+	'handles token request bad response': function (test) {
+		test.expect(2);
+
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'authempty',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error) {
+			test.ok(error, 'should get error');
+			test.equal(error.message, 'Error requesting token: Token Missing', 'should be expected error');
+			test.done();
+		});
 	}
 };
 
 exports['fuel token and config'] = {
 	setUp: function (done) {
 		this._performRequest = fuel._performRequest;
-		fuel._performRequest = stubRequest;
+		fuel._performRequest = stubEchoRequest;
 		this._performTokenRequest = fuel._performTokenRequest;
-		fuel._performTokenRequest = stubTokenRequest;
+		fuel._performTokenRequest = stubEchoTokenRequest;
 		done();
 	},
 
@@ -379,13 +469,54 @@ function stubCallback(error) {
 	stubCallback.error = error;
 }
 
-function stubRequest(options, callback) {
-	options = fuel._removeAuthOptions(options);
+function stubEchoRequest(options, callback) {
+	var body = fuel._removeAuthOptions(options);
+	var res = {"statusCode":200};
+
+	if (options.headers.authorization === 'Bearer badtoken') {
+		body = {};
+		res.statusCode = 401;
+		res.headers = {"www-authenticate":"Bearer realm=\"test\", error=\"invalid_token\""};
+		options.authUrl = 'auth'; // Set back to good authentication
+	}
+
+	callback(null, res, body);
+}
+
+function stubEchoTokenRequest(options, callback) {
 	callback(null, {}, options);
 }
 
 function stubTokenRequest(options, callback) {
-	if (options.url === 'auth') options.accessToken = 'stubtoken';
-	if (options.url === 'auth2') options.accessToken = 'stubtoken2';
-	callback(null, {}, options);
+	var body = {};
+	var res = {"statusCode":200};
+
+	switch (options.url) {
+		case 'auth':
+			body.accessToken = 'stubtoken';
+			body.expiresIn = 1;
+			break;
+		case 'auth2':
+			body.accessToken = 'stubtoken2';
+			body.expiresIn = 1;
+			break;
+		case 'auth500':
+			body.documentation = 'https://code.docs.exacttarget.com/rest/errors/500';
+			body.errorcode = 0;
+			body.message = 'Internal Server Error';
+			res.statusCode = 500;
+			break;
+		case 'auth503':
+			body = null;
+			res.statusCode = 503;
+			break;
+		case 'authbad':
+			body.accessToken = 'badtoken';
+			body.expiresIn = 1;
+			break;
+		case 'authempty':
+			break;
+	}
+
+	callback(null, res, body);
 }
