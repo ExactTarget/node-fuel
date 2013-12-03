@@ -129,7 +129,7 @@ exports['module validation'] = {
 exports['fuel requests and config'] = {
 	setUp: function (done) {
 		this._performRequest = fuel._performRequest;
-		fuel._performRequest = stubRequest;
+		fuel._performRequest = stubEchoRequest;
 		this._performTokenRequest = fuel._performTokenRequest;
 		fuel._performTokenRequest = stubTokenRequest;
 		done();
@@ -148,6 +148,36 @@ exports['fuel requests and config'] = {
 			url: 'apiurl',
 			method: 'PATCH',
 			authUrl: 'auth',
+			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
+			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
+			body: 'zzzzz',
+			accessType: 'aaaa',
+			refreshToken: 'rrrr',
+			scope: 'ssss'
+		}, function (error, response, body) {
+			test.ifError(error);
+
+			test.deepEqual(body, {
+				url: 'apiurl',
+				method: 'PATCH',
+				json: true,
+				headers: {
+					authorization: 'Bearer stubtoken'
+				},
+				body: 'zzzzz'
+			}, 'should construct the appropriate request');
+
+			test.done();
+		});
+	},
+
+	'handles invalid token response': function (test) {
+		test.expect(2);
+
+		fuel({
+			url: 'apiurl',
+			method: 'PATCH',
+			authUrl: 'authbad',
 			clientId: 'yyyyyyyyyyyyyyyyyyyyyyyy',
 			clientSecret: 'zzzzzzzzzzzzzzzzzzzzzzzz',
 			body: 'zzzzz',
@@ -330,7 +360,7 @@ exports['fuel requests and config'] = {
 exports['fuel token and config'] = {
 	setUp: function (done) {
 		this._performRequest = fuel._performRequest;
-		fuel._performRequest = stubRequest;
+		fuel._performRequest = stubEchoRequest;
 		this._performTokenRequest = fuel._performTokenRequest;
 		fuel._performTokenRequest = stubEchoTokenRequest;
 		done();
@@ -439,9 +469,18 @@ function stubCallback(error) {
 	stubCallback.error = error;
 }
 
-function stubRequest(options, callback) {
-	options = fuel._removeAuthOptions(options);
-	callback(null, {}, options);
+function stubEchoRequest(options, callback) {
+	var body = fuel._removeAuthOptions(options);
+	var res = {"statusCode":200};
+
+	if (options.headers.authorization === 'Bearer badtoken') {
+		body = {};
+		res.statusCode = 401;
+		res.headers = {"www-authenticate":"Bearer realm=\"test\", error=\"invalid_token\""};
+		options.authUrl = 'auth'; // Set back to good authentication
+	}
+
+	callback(null, res, body);
 }
 
 function stubEchoTokenRequest(options, callback) {
@@ -470,6 +509,10 @@ function stubTokenRequest(options, callback) {
 		case 'auth503':
 			body = null;
 			res.statusCode = 503;
+			break;
+		case 'authbad':
+			body.accessToken = 'badtoken';
+			body.expiresIn = 1;
 			break;
 		case 'authempty':
 			break;
