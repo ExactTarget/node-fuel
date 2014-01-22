@@ -1,6 +1,16 @@
 fuel History
 ============
 
+v0.4.1 2014-01-21
+-----------------
+
+This release fixes an issue where an error response from the token request
+will cache the invalid state forever.
+
+  * Forward error from the request to the callback.
+  * Only cache token requests when the response body contains an `expiresIn`
+    property (i.e. do not cache error responses).
+
 v0.4.0 2013-12-03
 -----------------
 
