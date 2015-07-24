@@ -10,7 +10,7 @@
   "main": "lib/fuel",
   "dependencies": {
     "extend": "1.2.1",
-    "request": "~2.27.0"
+    "request": "~2.60.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
