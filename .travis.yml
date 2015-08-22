@@ -8,3 +8,5 @@ sudo: false
 before_install:
   # Remove all non-test dependencies
   - npm rm --save-dev grunt-contrib-watch
+  # Skip installing optional dependencies
+  - npm config set optional false
