@@ -9,7 +9,7 @@
   ],
   "main": "lib/fuel",
   "dependencies": {
-    "extend": "1.2.1",
+    "extend": "3.0.0",
     "request": "2.45.0"
   },
   "devDependencies": {
