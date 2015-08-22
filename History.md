@@ -1,6 +1,14 @@
 fuel History
 ============
 
+v0.5.0 2015-08-21
+-----------------
+
+This release is a maintainance release to upgrade dependencies.
+
+  * `extend` module updated to v3.0.0 from v1.2.1.
+  * `request` module updated to v2.45.0 from v2.27.0.
+
 v0.4.1 2014-01-21
 -----------------
 
