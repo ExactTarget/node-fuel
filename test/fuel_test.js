@@ -84,7 +84,7 @@ exports['module validation'] = {
 	},
 
 	'validates invalid clientId': function (test) {
-		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'i' }, stubCallback);
+		var valid = fuel._validateOptions({ authUrl: 'a', clientId: [] }, stubCallback);
 
 		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
 		test.strictEqual(stubCallback.error.message, 'clientId is missing or invalid', 'should return expected message');
@@ -104,7 +104,7 @@ exports['module validation'] = {
 	},
 
 	'validates invalid clientSecret': function (test) {
-		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'iiiiiiiiiiiiiiiiiiiiiiii', clientSecret: 's' }, stubCallback);
+		var valid = fuel._validateOptions({ authUrl: 'a', clientId: 'iiiiiiiiiiiiiiiiiiiiiiii', clientSecret: [] }, stubCallback);
 
 		test.ok(stubCallback.error instanceof Error, 'should call callback with error object');
 		test.strictEqual(stubCallback.error.message, 'clientSecret is missing or invalid', 'should return expected message');
