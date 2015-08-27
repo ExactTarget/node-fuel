@@ -1,7 +1,7 @@
 fuel History
 ============
 
-v0.5.0 2015-08-21
+v0.6.0 2015-08-27
 -----------------
 
 This release removes credentials length validations, upgrades `request`,
