@@ -4,6 +4,16 @@ fuel History
 v0.5.0 2015-08-21
 -----------------
 
+This release removes credentials length validations, upgrades `request`,
+and drops support for Node.js 0.8.
+
+  * Remove length check from `clientId` and `clientSecret` options
+  * Remove support for Node.js 0.8
+  * `request` module updated to v2.61.0 from v2.45.0.
+
+v0.5.0 2015-08-21
+-----------------
+
 This release is a maintainance release to upgrade dependencies.
 
   * `extend` module updated to v3.0.0 from v1.2.1.
